@@ -21,7 +21,7 @@ request and response, including both header and body:
 * **Web Application Security**: Enforce signature-based detection rules, anomaly
   detection systems, scan uploads, call external auth with payload data, etc.
 
-Payload processing can also encompass various much older use cases, such as
+Payload processing can also encompass various use cases outside of AI, such as
 external authorization or rate limiting. Despite these use cases, though,
 payload processing is not standardized in Kubernetes today.
 
@@ -68,8 +68,9 @@ payload processing is not standardized in Kubernetes today.
 
 ## Goals
 
-* Ensure that declarative APIs and standards exist for adding Payload
-  Processors to HTTP requests and responses on Kubernetes.
+* Ensure that declarative APIs, standards, and guidance on best practices
+  exist for adding Payload Processors to HTTP requests and responses on
+  Kubernetes.
 * Ensure that there is adequate documentation for developers to be able to
   easily build implementations of Payload Processors according to the
   standards.
