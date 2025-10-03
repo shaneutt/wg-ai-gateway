@@ -25,46 +25,51 @@ Payload processing can also encompass various use cases outside of AI, such as
 external authorization or rate limiting. Despite these use cases, though,
 payload processing is not standardized in Kubernetes today.
 
+## Definitions
+
+* **Payload Processors**: Features capable of processing the full payload of
+  requests and/or responses (including headers and body). Payload processors
+  may be implemented natively or as extensions. Many existing API gateways
+  (including Envoy and NGINX) include filter mechanisms which fit this
+  definition, but we are not limiting discussion to only these existing
+  mechanisms.
+
 ## User Stories
 
 * As a developer of an application that performs AI inference as part of its
-  function, I want routing decisions for inference requests to be dynamically
-  adapted based on the content of each request, targeting the most suitable
-  models to improve the quality of inference results that my application
-  receives.
+  function:
 
-* As a developer of an application that performs AI inference as part of its
-  function, I want declarative configuration of failure modes for processing
-  steps (fail-open, fail-closed, fallback, etc) to ensuring safe and
-  efficient runtime behavior of my application.
+   * I want routing decisions for inference requests to be able to be
+     dynamically adapted based on the content of each request, targeting the
+     most suitable models to improve the quality of inference results that my
+     application receives.
 
-* As a developer of an application that performs AI inference as part of its
-  function, I want predictable ordering of all payload processing steps to
-  ensure safe and consistent runtime behavior.
+   * I want declarative configuration of failure modes for processing steps
+     (fail-open, fail-closed, fallback, etc) to ensure safe and efficient
+     runtime behavior of my application.
 
-* As a security engineer, I want to add a detection engine which scans
-  requests to identify malicious request payloads and block or sanitize them
-  before they reach backends.
+   * I want predictable ordering of all payload processing steps to ensure
+     safe and consistent runtime behavior.
 
-* As a cluster admin, I want to add semantic caching to inference requests in
-  order to detect repeated requests and return cached results, reducing overall
-  inference costs and improving latency for common requests.
+* As a security engineer, I want to be able to add a detection engine which
+  scans requests to identify malicious or anomalous request payloads and
+  block, sanitize, and/or report them before they reach backends.
 
-* As a compliance officer, I want inference requests to be processed and
-  investigated for personally identifiable information (PII) so that any
-  PII can result in termination of the request, or (optionally) can be redacted
-  from the request before sending it to the inference backend.
+* As a cluster admin, I want to be able to add semantic caching to inference
+  requests in order to detect repeated requests and return cached results,
+  reducing overall inference costs and improving latency for common requests.
 
-* As a compliance officer, I want inference **responses** to be processed and
-  investigated for malicious or misaligned results enabling the termination or
-  modification of content identified as misaligned.
+* As a compliance officer:
 
-## Definitions
+   * I want to be able to add processors that examine inference **requests**
+     for personally identifiable information (PII) so that any PII can result
+     in the request being blocked, sanitized, or reported before sending it to
+     the inference backend.
 
-* **Payload Processors**: Features, whether they be native or extensions, which
-  need to process the full payload including body of requests and/or responses
-  in order to function, will be known as "Payload Processors" throughout this
-  document.
+   * I want to be able to add processors that examine inference **responses**
+     for malicious or misaligned results so that any such results can be
+     dropped, sanitized, or reported before the response is sent to the
+     requester.
 
 ## Goals
 
@@ -82,7 +87,9 @@ payload processing is not standardized in Kubernetes today.
 
 ## Non-Goals
 
-TODO
+* Requiring every request or response to be processed by a payload processor.
+  The mechanisms described in this proposal are intended to be optional
+  extensions.
 
 # How?
 
