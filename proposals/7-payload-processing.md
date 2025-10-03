@@ -1,6 +1,6 @@
 # Payload Processing
 
-* Authors: @shaneutt
+* Authors: @shaneutt, @kflynn
 
 # What?
 
@@ -9,7 +9,8 @@ responses in Kubernetes across the entire payload, including the body.
 
 # Why?
 
-Modern workloads require body-level processing:
+Modern workloads require the ability to process the full payload of an HTTP
+request and response, including both header and body:
 
 * **AI Inference Security**: Guard against bad prompts for inference requests,
   or misaligned responses.
@@ -20,8 +21,9 @@ Modern workloads require body-level processing:
 * **Web Application Security**: Enforce signature-based detection rules, anomaly
   detection systems, scan uploads, call external auth with payload data, etc.
 
-Despite these use cases this kind of processing is not standardized in
-Kubernetes today.
+Payload processing can also encompass various use cases outside of AI, such as
+external authorization or rate limiting. Despite these use cases, though,
+payload processing is not standardized in Kubernetes today.
 
 ## User Stories
 
@@ -66,11 +68,13 @@ Kubernetes today.
 
 ## Goals
 
-* Ensure declarative APIs and standards exist for adding Payload Processors to
-  HTTP requests and responses on Kubernetes.
-* Ensure documentation exists for developers to more easily build their
-  implementations of Payload Processors according to the standards.
-* Support composability, pluggability and ordered processing of Payload
+* Ensure that declarative APIs, standards, and guidance on best practices
+  exist for adding Payload Processors to HTTP requests and responses on
+  Kubernetes.
+* Ensure that there is adequate documentation for developers to be able to
+  easily build implementations of Payload Processors according to the
+  standards.
+* Support composability, pluggability, and ordered processing of Payload
   Processors.
 * Ensure the APIs can provide clear and easily observable defaulting behavior.
 * Ensure the APIs can provide clear and obvious runtime behavior.
